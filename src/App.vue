@@ -1,24 +1,30 @@
 <template>
-
-  <Hello :text="text"/>
-  {{ text.num }}
+  <h1>Vue 3 入門</h1>
+  <div>
+    <button v-on:click="city = 'tokyo'">東京</button>
+    <button v-on:click="city = 'kyoto'">京都</button>
+  </div>
+  <div>
+    <keep-alive>
+        <component v-bind:is="tab"></component>
+    </keep-alive>
+  </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 
-import BeginnerBasic from './components/BeginnerBasic.vue';
-import  Hello from './components/Hello.vue';
+import  Tokyo from './components/Tokyo.vue';
+import Kyoto from './components/Kyoto.vue';
 
-components: {
-  BeginnerBasic,
-  Hello
-}
+const city = ref('tokyo');
 
+const tabs = {
+  tokyo: Tokyo,
+  kyoto: Kyoto,
+};
 
-const text = ref({
-  num: 100,
-});
+const tab = computed(() => tabs[city.value]);
 
 </script>
 
