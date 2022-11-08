@@ -1,33 +1,47 @@
 <template>
-  <h1>Vue 3 入門</h1>
-  <div>
-    <button v-on:click="city = 'tokyo'">東京</button>
-    <button v-on:click="city = 'kyoto'">京都</button>
-  </div>
-  <div>
-    <keep-alive>
-        <component v-bind:is="tab"></component>
-    </keep-alive>
-  </div>
+  <button v-on:click="openModal">Click</button>
+  <OpenModal v-show="showContent" v-on:modal_close="closeModal">
+    これがModalですよ
+  </OpenModal>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref} from 'vue';
+import OpenModal from './components/opneModal.vue';
 
-import  Tokyo from './components/Tokyo.vue';
-import Kyoto from './components/Kyoto.vue';
+const showContent = ref(false);
 
-const city = ref('tokyo');
-
-const tabs = {
-  tokyo: Tokyo,
-  kyoto: Kyoto,
+const openModal = () => {
+  console.log('click');
+  showContent.value = true;
 };
 
-const tab = computed(() => tabs[city.value]);
+const closeModal = () => {
+  showContent.value = false;
+}
 
 </script>
 
 <style scoped>
+#overlay{
+  z-index:1;
 
+  position:fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.8);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#content{
+  z-index: 2;
+  width: 50%;
+  padding: 1rem;
+  background: #9d9d9d;
+}
 </style>
